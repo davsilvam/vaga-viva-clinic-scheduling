@@ -84,6 +84,8 @@ src/test/java/io/github/precavidos/clinic/
 
 Todos os dados do projeto são fictícios.
 
+Esse é um teste.
+
 ## Licença
 
 [MIT](LICENSE).
