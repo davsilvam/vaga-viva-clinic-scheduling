@@ -4,6 +4,19 @@ Repositório-modelo do arquétipo `java-spring` do Vaga Viva: a API de um sistem
 
 O projeto começa incompleto. Cada missão do seu plano tem testes automatizados que falham até você implementá-la. O contrato de cada missão está em `missoes/`.
 
+## Seu projeto
+
+Este projeto foi montado para uma vaga júnior que pede Programação em Java, Design de APIs, SQL, PostgreSQL, Spring Framework e Contêineres. Você vai construir um sistema de agendamento de clínica, cadastrando pacientes e marcando consultas com profissionais de saúde, usando Java e Spring Boot. Ao concluir as missões, você terá praticado de forma concreta as competências que a vaga exige, na mesma stack central dela.
+
+| Ordem | Missão | Issue |
+| --- | --- | --- |
+| 1 | Cadastro de pacientes | [#1](https://github.com/davsilvam/vaga-viva-clinic-scheduling/issues/1) |
+| 2 | Pacientes no banco de dados | [#2](https://github.com/davsilvam/vaga-viva-clinic-scheduling/issues/2) |
+| 3 | Validação e mensagens de erro | [#3](https://github.com/davsilvam/vaga-viva-clinic-scheduling/issues/3) |
+| 4 | Listagem paginada de consultas | [#4](https://github.com/davsilvam/vaga-viva-clinic-scheduling/issues/4) |
+| 5 | Regras de agendamento | [#5](https://github.com/davsilvam/vaga-viva-clinic-scheduling/issues/5) |
+| 6 | Consulta de horários livres | [#6](https://github.com/davsilvam/vaga-viva-clinic-scheduling/issues/6) |
+
 ## Tecnologias
 
 Java 21, Spring Boot 4, Maven (pelo Maven Wrapper, `./mvnw`), PostgreSQL 17, Flyway, JPA/Hibernate, JUnit 5, Testcontainers e MockMvc.
