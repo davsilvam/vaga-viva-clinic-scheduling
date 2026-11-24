@@ -1,0 +1,5 @@
+{
+  "archetype" : "java-spring",
+  "domain" : "clinic-scheduling",
+  "missions" : [ "patients-api", "persistence", "input-validation", "pagination", "scheduling-rules", "availability-query" ]
+}
