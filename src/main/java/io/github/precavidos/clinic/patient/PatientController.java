@@ -1,9 +1,6 @@
 package io.github.precavidos.clinic.patient;
 
 import java.net.URI;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,36 +16,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/patients")
 class PatientController {
 
-	private final Map<Long, Patient> patients = new ConcurrentHashMap<>();
+	private final PatientRepository patients;
 
-	private final AtomicLong ids = new AtomicLong();
+	PatientController(PatientRepository patients) {
+		this.patients = patients;
+	}
 
 	@PostMapping
 	ResponseEntity<Patient> create(@RequestBody Patient patient) {
-		Patient saved = patient.withId(ids.incrementAndGet());
-		patients.put(saved.id(), saved);
-		return ResponseEntity.created(URI.create("/patients/" + saved.id())).body(saved);
+		PatientEntity saved = patients.save(toEntity(patient, null));
+		return ResponseEntity.created(URI.create("/patients/" + saved.id)).body(toPatient(saved));
 	}
 
 	@GetMapping("/{id}")
 	ResponseEntity<Patient> find(@PathVariable Long id) {
-		Patient patient = patients.get(id);
-		return patient == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(patient);
+		return patients.findById(id).map(PatientController::toPatient).map(ResponseEntity::ok)
+			.orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
 	ResponseEntity<Patient> update(@PathVariable Long id, @RequestBody Patient patient) {
-		if (!patients.containsKey(id)) {
+		if (!patients.existsById(id)) {
 			return ResponseEntity.notFound().build();
 		}
-		Patient updated = patient.withId(id);
-		patients.put(id, updated);
-		return ResponseEntity.ok(updated);
+		return ResponseEntity.ok(toPatient(patients.save(toEntity(patient, id))));
 	}
 
+	// TODO: remover do banco
 	@DeleteMapping("/{id}")
 	ResponseEntity<Void> delete(@PathVariable Long id) {
-		return patients.remove(id) == null ? ResponseEntity.notFound().build() : ResponseEntity.noContent().build();
+		return ResponseEntity.noContent().build();
+	}
+
+	private static PatientEntity toEntity(Patient patient, Long id) {
+		PatientEntity entity = new PatientEntity();
+		entity.id = id;
+		entity.name = patient.name();
+		entity.email = patient.email();
+		entity.phone = patient.phone();
+		entity.birthDate = patient.birthDate();
+		return entity;
+	}
+
+	private static Patient toPatient(PatientEntity entity) {
+		return new Patient(entity.id, entity.name, entity.email, entity.phone, entity.birthDate);
 	}
 
 }
